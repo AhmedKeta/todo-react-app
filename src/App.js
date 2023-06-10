@@ -1,24 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import "../node_modules/bootstrap/dist/css/bootstrap.css";
+import { Container } from "react-bootstrap";
+import TodoForm from "./components/TodoForm/TodoForm";
+import TodoList from "./components/TodoList/TodoList";
+import { useState } from "react";
 
 function App() {
+  const [tasks, setTasks] = useState([
+
+  ]);
+  const addTodo = (newTask) => {
+    setTasks([...tasks, newTask]);
+  };
+    const removeTodo = (taskId) => {
+      setTasks(tasks.filter((task) => task.id !== taskId));
+    };
+    const toggleCompleted = (taskId) => {
+      setTasks(
+        tasks.map((task) =>
+          task.id === taskId ? { ...task, completed: !task.completed } : task
+        )
+      );
+    };
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Container>
+      <TodoForm addTodo={addTodo}></TodoForm>
+      <TodoList
+        tasks={tasks}
+        removeTodo={removeTodo}
+        toggleCompleted={toggleCompleted}></TodoList>
+    </Container>
   );
 }
 
